@@ -53,9 +53,9 @@ public class GameEngine extends SurfaceView implements Runnable {
 
     Rect laneRectangle;
     Player dinosour;
-    Object candy;
-    Player rainbow;
-    Player garbage;
+    Item candy;
+//    Player rainbow;
+//    Player garbage;
     int dinoLane;
     // represent the TOP LEFT CORNER OF THE GRAPHIC
 
@@ -93,9 +93,9 @@ public class GameEngine extends SurfaceView implements Runnable {
         //Initializing the player at 85% width as x and middle of screen as Y
         dinosour = new Player(this.getContext(), (int) (screenWidth * .85), (int) (screenHeight * .5) - 200);
 
-        candy = new Object(this.getContext(), (int) (screenWidth * 0.5), (int) (screenHeight * .5) - 550);
+        candy = new Item(this.getContext(), (int) (screenWidth * 0.5), (int) (screenHeight * .5) - 550);
 
-        rainbow = new Player(this.getContext(), (int) (screenWidth * 0.15), (int) (screenHeight * 0.5) - 500);
+//        rainbow = new Player(this.getContext(), (int) (screenWidth * 0.15), (int) (screenHeight * 0.5) - 500);
 
     }
 
@@ -206,6 +206,26 @@ public class GameEngine extends SurfaceView implements Runnable {
     //using switch case for movement
     public void updatePositions() {
 
+        switch (dinoLane) {
+            case 1:
+                this.dinosour.setyPosition(22);
+                break;
+            case 2:
+                this.dinosour.setyPosition(222);
+                break;
+            case 3:
+                this.dinosour.setyPosition((450));
+                break;
+            case 4:
+                this.dinosour.setyPosition(620);
+                break;
+        }
+
+        //Reposition the HitBox as per dinosaur positions
+        this.dinosour.getHitbox().left = this.dinosour.getxPosition();
+        this.dinosour.getHitbox().top = this.dinosour.getyPosition();
+        this.dinosour.getHitbox().right = this.dinosour.getxPosition() + this.dinosour.getImage().getWidth();
+        this.dinosour.getHitbox().bottom = this.dinosour.getyPosition() + this.dinosour.getImage().getHeight();
 
 
     }
@@ -236,7 +256,7 @@ public class GameEngine extends SurfaceView implements Runnable {
             this.canvas.drawBitmap(candy.getImage(), candy.getxPosition(), candy.getyPosition(), paintbrush);
 
             //draw the rainbow
-            this.canvas.drawBitmap(rainbow.getImage(), rainbow.getxPosition(), rainbow.getyPosition(), paintbrush);
+//            this.canvas.drawBitmap(rainbow.getImage(), rainbow.getxPosition(), rainbow.getyPosition(), paintbrush);
 
             //dra
 
@@ -282,55 +302,56 @@ public class GameEngine extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-//        int middleOfScreen = (this.screenHeight / 2) - 100;
-//        int userAction = event.getActionMasked();
-//        //@TODO: What should happen when person touches the screen?
-//        if (userAction == MotionEvent.ACTION_DOWN) {
-//
-//
-//            if (event.getY() > middleOfScreen) {
-//                fingerAction = "lower";
-//                switch (dinoLane) {
-//                    case 1:
-//                        dinoLane = dinoLane + 2;
-//                        break;
-//                    case 2:
-//                        dinoLane++;
-//                        break;
-//                    case 3:
-//                        dinoLane++;
-//                        break;
-//                    case 4:
-//                        dinoLane--;
-//                        break;
-//                }
-//            } else if (event.getY() < middleOfScreen) {
-//                Log.d(TAG, "onTouchEvent: UP" + event.getY());
-//                fingerAction = "upper";
-//                switch (dinoLane) {
-//                    case 1:
-//                        dinoLane++;
-//                        break;
-//                    case 2:
-//                        dinoLane--;
-//                        break;
-//                    case 3:
-//                        dinoLane--;
-//                        break;
-//                    case 4:
-//                        dinoLane = dinoLane - 2;
-//                        break;
-//                }
-//
-//            } else if (userAction == MotionEvent.ACTION_UP) {
-////
-//                Log.d(TAG, "onTouchEvent: ACTION_UP");
-//                this.fingerAction = "up";
-//
-//            }
-//            return true;
-//        }
+        int middleOfScreen = (this.screenHeight / 2) - 100;
+        int userAction = event.getActionMasked();
+        //@TODO: What should happen when person touches the screen?
+        if (userAction == MotionEvent.ACTION_DOWN) {
 
 
+            if (event.getY() > middleOfScreen) {
+                fingerAction = "down";
+                switch (dinoLane) {
+                    case 1:
+                        dinoLane = dinoLane + 2;
+                        break;
+                    case 2:
+                        dinoLane++;
+                        break;
+                    case 3:
+                        dinoLane++;
+                        break;
+                    case 4:
+                        dinoLane--;
+                        break;
+                }
+            } else if (event.getY() < middleOfScreen) {
+                Log.d(TAG, "onTouchEvent: UP" + event.getY());
+                fingerAction = "up";
+                switch (dinoLane) {
+                    case 1:
+                        dinoLane++;
+                        break;
+                    case 2:
+                        dinoLane--;
+                        break;
+                    case 3:
+                        dinoLane--;
+                        break;
+                    case 4:
+                        dinoLane = dinoLane - 2;
+                        break;
+                }
+
+            } else if (userAction == MotionEvent.ACTION_UP) {
+//
+                Log.d(TAG, "onTouchEvent: ACTION_UP");
+                this.fingerAction = "up";
+
+            }
+            return true;
+        }
+
+
+        return false;
     }
 }
